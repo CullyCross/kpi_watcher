@@ -1,13 +1,11 @@
-<html>
+{% extends 'ratings/base.html' %}
 
-	<head>
-		<title>
-			Hey, it's KPI Watcher
-		</title>
-	</head>
-
-	<body>
-    	<p>Hi there!</p>
-    	<p>It works!</p>
-	</body>
-</html>
+{%block content%}
+	{%for teacher in teachers%}
+		<div>
+	    	<a href="">{{ teacher.user.username }}</a>
+		    <p>{{ teacher.avg_rating }}</p>
+		    <p>{{ teacher.count_of_votes }}</p>
+	    </div>
+	{%endfor%}
+{%endblock content%}

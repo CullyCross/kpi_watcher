@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class University(models.Model):
 	name = models.CharField(max_length=50)
-	avg_rating = models.DecimalField(max_digits=3, decimal_places=2)
+	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
 
 	def count_rating(self):
 		total = 0
@@ -21,7 +21,7 @@ class University(models.Model):
 class Faculty(models.Model):
 	name = models.CharField(max_length=50)
 	university = models.ForeignKey(University, related_name="faculties")
-	avg_rating = models.DecimalField(max_digits=3, decimal_places=2)
+	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
 
 	def count_rating(self):
 		total = 0
@@ -39,7 +39,7 @@ class Faculty(models.Model):
 class Department(models.Model):
 	name = models.CharField(max_length=50)
 	faculty = models.ForeignKey(Faculty, related_name="departments")
-	avg_rating = models.DecimalField(max_digits=3, decimal_places=2)
+	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
 
 	def count_rating(self):
 		total = 0
@@ -75,7 +75,7 @@ class Teacher(models.Model):
 			return False
 
 	def __str__(self):
-		return self.user.get_full_name()
+		return self.user.get_username()
 
 
 class Group(models.Model):
@@ -106,4 +106,4 @@ class Student(models.Model):
 	is_leader = models.BooleanField(default=False)
 
 	def __str__(self):
-		return self.user.get_full_name()
+		return self.user.get_username()
