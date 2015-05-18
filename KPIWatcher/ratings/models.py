@@ -11,7 +11,8 @@ class University(models.Model):
 		for faculty in self.faculties.all():
 			faculty.count_rating()
 			total += faculty.avg_rating
-		avg_rating = total / len(self.faculties.all())
+		self.avg_rating = total / len(self.faculties.all())
+		self.save()
 
 	def __str__(self):
 		return self.name
@@ -27,7 +28,8 @@ class Faculty(models.Model):
 		for department in self.departments.all():
 			department.count_rating()
 			total += department.avg_rating
-		avg_rating = total / len(self.departments.all())
+		self.avg_rating = total / len(self.departments.all())
+		self.save()
 
 
 	def __str__(self):
@@ -47,7 +49,8 @@ class Department(models.Model):
 		for group in self.groups.all():
 			total += group.avg_rating
 
-		avg_rating = total / (len(self.groups.all()) + len(self.teachers.all()))
+		self.avg_rating = total / (len(self.groups.all()) + len(self.teachers.all()))
+		self.save()
 
 	def __str__(self):
 		return self.name
@@ -59,19 +62,20 @@ class Teacher(models.Model):
 	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
 	count_of_votes = models.IntegerField(default=0, editable=False)
 
-	voted_students = models.ManyToManyField('Student', related_name="voted_students")
+	voted_students = models.ManyToManyField('Student', related_name="rated_teachers", editable=False)
 
 	def vote(self, vote, student):
-		if self.voted_students.filter(user=student.user).exists():
-			avg_rating = ((avg_rating * count_of_votes) + vote) / (count_of_votes + 1)
-			count_of_votes += 1
-			voted_students.add(student)
+		if not self.voted_students.filter(student=student).exists():
+			self.avg_rating = ((self.avg_rating * self.count_of_votes) + vote) / (self.count_of_votes + 1)
+			self.count_of_votes += 1
+			self.voted_students.add(student)
+			self.save()
 			return True
 		else:
 			return False
 
 	def __str__(self):
-		return user.get_full_name()
+		return self.user.get_full_name()
 
 
 class Group(models.Model):
@@ -80,13 +84,14 @@ class Group(models.Model):
 	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
 	count_of_votes = models.IntegerField(default=0, editable=False)
 
-	voted_teachers = models.ManyToManyField('Teacher', related_name="voted_teachers")
+	voted_teachers = models.ManyToManyField('Teacher', related_name="rated_groups", editable=False)
 
 	def vote(self, vote, teacher):
-		if self.voted_teachers.filter(user=teacher.user).exists():
-			avg_rating = ((avg_rating * count_of_votes) + vote) / (count_of_votes + 1)
-			count_of_votes += 1
-			voted_teachers.add(teacher)
+		if not self.voted_teachers.filter(teacher=teacher).exists():
+			self.avg_rating = ((self.avg_rating * self.count_of_votes) + vote) / (self.count_of_votes + 1)
+			self.count_of_votes += 1
+			self.voted_teachers.add(teacher)
+			self.save()
 			return True
 		else:
 			return False
@@ -101,4 +106,4 @@ class Student(models.Model):
 	is_leader = models.BooleanField(default=False)
 
 	def __str__(self):
-		return user.get_full_name()
+		return self.user.get_full_name()
