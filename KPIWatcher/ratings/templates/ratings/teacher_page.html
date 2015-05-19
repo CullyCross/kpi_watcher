@@ -1,11 +1,12 @@
 {% extends 'ratings/base.html' %}
 
-{%block content%}
-	{%for teacher in teachers%}
-		<div>
+{% block content %}
+    <div>
 	    	<a href="{% url 'ratings.views.teacher_page' pk=teacher.pk %}">{{ teacher.user.username }}</a>
 		    <p>{{ teacher.avg_rating }}</p>
 		    <p>{{ teacher.count_of_votes }}</p>
+		    <form method="POST" class="post-form">{% csrf_token %}
+        		<button type="submit">Vote up</button>
+    		</form>
 	    </div>
-	{%endfor%}
-{%endblock content%}
+{% endblock %}
