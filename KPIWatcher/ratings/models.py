@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 class University(models.Model):
 	name = models.CharField(max_length=50)
-	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
+	avg_rating = models.DecimalField(max_digits=4, decimal_places=2, default=0, editable=False)
 
 	def count_rating(self):
 		total = 0
@@ -21,7 +21,7 @@ class University(models.Model):
 class Faculty(models.Model):
 	name = models.CharField(max_length=50)
 	university = models.ForeignKey(University, related_name="faculties")
-	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
+	avg_rating = models.DecimalField(max_digits=4, decimal_places=2, default=0, editable=False)
 
 	def count_rating(self):
 		total = 0
@@ -39,7 +39,7 @@ class Faculty(models.Model):
 class Department(models.Model):
 	name = models.CharField(max_length=50)
 	faculty = models.ForeignKey(Faculty, related_name="departments")
-	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
+	avg_rating = models.DecimalField(max_digits=4, decimal_places=2, default=0, editable=False)
 
 	def count_rating(self):
 		total = 0
@@ -59,7 +59,7 @@ class Department(models.Model):
 class Teacher(models.Model):
 	user = models.OneToOneField(User)
 	department = models.ForeignKey(Department, related_name="teachers")
-	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
+	avg_rating = models.DecimalField(max_digits=4, decimal_places=2, default=0, editable=False)
 	count_of_votes = models.IntegerField(default=0, editable=False)
 
 	voted_students = models.ManyToManyField('Student', related_name="rated_teachers", editable=False)
@@ -81,7 +81,7 @@ class Teacher(models.Model):
 class Group(models.Model):
 	name = models.CharField(max_length=50)
 	department = models.ForeignKey(Department, related_name="groups")
-	avg_rating = models.DecimalField(max_digits=3, decimal_places=2, default=0, editable=False)
+	avg_rating = models.DecimalField(max_digits=4, decimal_places=2, default=0, editable=False)
 	count_of_votes = models.IntegerField(default=0, editable=False)
 
 	voted_teachers = models.ManyToManyField('Teacher', related_name="rated_groups", editable=False)
