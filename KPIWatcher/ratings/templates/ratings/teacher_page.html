@@ -2,11 +2,16 @@
 
 {% block content %}
     <div>
+			<div>Previous vote: {{prev_vote}} </div>
 	    	<a href="{% url 'ratings.views.teacher_page' pk=teacher.pk %}">{{ teacher.user.username }}</a>
 		    <p>{{ teacher.avg_rating }}</p>
 		    <p>{{ teacher.count_of_votes }}</p>
 		    <form method="POST" class="post-form">{% csrf_token %}
-        		<button type="submit">Vote up</button>
+		    	{%for i in range%}
+		    		<input type="radio" name="vote" id="vote{{ i }}" value="{{ i }}" />
+    				<label for="vote{{ i }}">{{ i }} Star(s)</label><br />
+		    	{%endfor%}
+        		<input type="submit" value="Vote" />
     		</form>
 	    </div>
 {% endblock %}

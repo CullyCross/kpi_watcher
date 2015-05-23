@@ -65,14 +65,14 @@ class Teacher(models.Model):
 	voted_students = models.ManyToManyField('Student', related_name="rated_teachers", editable=False)
 
 	def vote(self, vote, student):
-		if not self.voted_students.filter(student=student).exists():
-			self.avg_rating = ((self.avg_rating * self.count_of_votes) + vote) / (self.count_of_votes + 1)
-			self.count_of_votes += 1
-			self.voted_students.add(student)
-			self.save()
-			return True
-		else:
-			return False
+		#if not self.voted_students.filter(student=student).exists():
+		self.avg_rating = ((self.avg_rating * self.count_of_votes) + vote) / (self.count_of_votes + 1)
+		self.count_of_votes += 1
+		#self.voted_students.add(student)
+		self.save()
+		#	return True
+		#else:
+		#	return False
 
 	def __str__(self):
 		return self.user.get_username()
