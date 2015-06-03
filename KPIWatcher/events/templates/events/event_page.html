@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+		<a href="{% url 'events.views.event_page' pk=event.pk %}">{{ event.name }}</a>
+		<br />
+		<p>{{ event.text }}</p>
+
+        {% for subscriber in event.subscribers.all %}
+            {{ subscriber.username }}
+        {% endfor %}
+	</div>
+{% endblock %}

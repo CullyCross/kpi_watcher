@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div>
+        Student's name:
+        {{student.user.username}}
+        Student's group:
+        {{student.group}}
+        {% if student.is_leader %}
+            I'm a leader!
+        {% endif %}
+    </div>
+{% endblock %}

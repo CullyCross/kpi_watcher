@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{%block content%}
+	{% for event in events %}
+        <a href="{% url 'events.views.event_page' pk=event.pk %}">{{ event.name | upper }}</a>
+        <br />
+        {{ event.text }}
+
+        <hr>
+    {% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if events.has_previous %}
+            <a href="?page={{ events.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ events.number }} of {{ events.paginator.num_pages }}.
+        </span>
+
+        {% if events.has_next %}
+            <a href="?page={{ events.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{%endblock content%}

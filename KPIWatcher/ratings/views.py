@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404
 from .models import *
 
 def top_ratings(request):
-	teachers = Teacher.objects.all().order_by('-avg_rating')
+	teachers = Teacher.objects.all().order_by('-avg_rating')[:100]
 	return render(request, 'ratings/top_ratings.html', {'teachers': teachers})
 
 
@@ -17,3 +17,8 @@ def vote(request, pk):
     teacher = get_object_or_404(Teacher, pk=pk)
     teacher.vote(int(request.POST['vote']), request.user.student)
     return HttpResponseRedirect(reverse('teacher_page', kwargs={'pk': teacher.pk}))
+
+
+def student_page(request, pk):
+    student = get_object_or_404(Student, pk=pk)
+    return render(request, 'ratings/student_page.html', {'student': student})
