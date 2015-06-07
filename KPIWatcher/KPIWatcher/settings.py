@@ -99,3 +99,11 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
 )
+
+from django.conf import global_settings
+
+TEMPLATE_CONTEXT_PROCESSORS =\
+    global_settings.TEMPLATE_CONTEXT_PROCESSORS +\
+    ('ratings.ctx_log_processor.auth_form',)
+
+LOGIN_REDIRECT_URL = '/'

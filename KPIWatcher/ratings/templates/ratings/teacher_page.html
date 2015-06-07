@@ -5,16 +5,69 @@
 		<a href="{% url 'ratings.views.teacher_page' pk=teacher.pk %}">{{ teacher.user.username }}</a>
 		<p>{{ teacher.avg_rating }}</p>
 		<p>{{ teacher.count_of_votes }}</p>
+
+        {% if message %}
+            {{ message }}
+        {% endif %}
 		<form method="POST" class="post-form" action="{% url 'ratings.views.vote' pk=teacher.pk %}">{% csrf_token %}
 			{%for i in range%}
-				<input type="radio" name="vote" id="vote{{ i }}" value="{{ i }}" />
+				{% if forloop.last %}
+                    <input type="radio" name="vote" id="vote{{ i }}" value="{{ i }}" checked="checked" />
+                {% else %}
+                    <input type="radio" name="vote" id="vote{{ i }}" value="{{ i }}" />
+                {% endif %}
 				<label for="vote{{ i }}">{{ i }} Star(s)</label><br />
 			{%endfor%}
 			<input type="submit" value="Vote" />
 		</form>
 
+        Subsribed for:
         {% for event in teacher.user.events.all %}
            <p> {{ event.name }}</p>
         {% endfor %}
+
+    <!-- begin htmlcommentbox.com -->
+        <div id="HCB_comment_box"><a href="http://www.htmlcommentbox.com">Widget</a> is loading comments...</div>
+        <link rel="stylesheet" type="text/css" href="//www.htmlcommentbox.com/static/skins/bootstrap/twitter-bootstrap.css?v=0" />
+        <script type="text/javascript" id="hcb"> /*<!--*/ if(!window.hcb_user){hcb_user={};} (function(){var s=document.createElement("script"), l=(""+window.location).replace(/'/g,"%27") || hcb_user.PAGE, h="//www.htmlcommentbox.com";s.setAttribute("type","text/javascript");s.setAttribute("src", h+"/jread?page="+encodeURIComponent(l).replace("+","%2B")+"&opts=16862&num=10");if (typeof s!="undefined") document.getElementsByTagName("head")[0].appendChild(s);})(); /*-->*/ </script>
+        <!-- end htmlcommentbox.com -->
 	</div>
+
+    <script>
+
+        var hide = function() {
+            var aTags = document.getElementsByTagName("a");
+            var searchText = "Html Comment Box";
+            var found;
+
+            for (var i = 0; i < aTags.length; i++) {
+                if (aTags[i].textContent == searchText) {
+                    found = aTags[i];
+                    found.parentNode.removeChild(found);
+                    break;
+                }
+            }
+        }
+
+        window.onload = hide;
+
+        var inputTags = document.getElementsByTagName("input");
+        var valueText = "Comment";
+        var button;
+        for (var i = 0; i < inputTags.length; i++) {
+            if (inputTags[i].value == valueText) {
+                button = inputTags[i];
+                break;
+            }
+        }
+
+        button.onclick = function() {
+            var save_method = make_comment_form;
+
+            make_comment_form = function() {
+                save_method();
+                hide();
+            }
+        }
+    </script>
 {% endblock %}
