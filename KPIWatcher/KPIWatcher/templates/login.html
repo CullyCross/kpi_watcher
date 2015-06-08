@@ -1,0 +1,16 @@
+<div>
+      {{ user }}
+      {% if user.is_anonymous %}
+          <form method="post" action="{% url 'login' %}">  {% csrf_token %}
+                    {% if request.path == '/login/' %}
+                        <input type="hidden" name="next" value="/">
+                    {% else %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                    {% endif %}
+              {{form.as_p}}
+              <input type="submit" value="Login">
+          </form>
+      {% else %}
+          <a href="{% url 'django.contrib.auth.views.logout' %}?next={{ request.path }}">logout</a>
+      {% endif %}
+</div>
