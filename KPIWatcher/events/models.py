@@ -17,9 +17,16 @@ class Event(models.Model):
     subscribers = models.ManyToManyField(User, related_name="events")
     # create publish method in views.py
 
+    def is_subscribed(self, user):
+        return self.subscribers.filter(id=user.id).exists()
+
     def subscribe(self, user):
-        self.subscribers.add(user)
-        self.save()
+        if not self.is_subscribed(user):
+            self.subscribers.add(user)
+            self.save()
+            return True
+        else:
+            return False
 
     def __str__(self):
         return self.name

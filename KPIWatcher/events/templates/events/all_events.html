@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 
 {%block content%}
+
+    {% if perm_to_create %}
+        <a href="{% url 'event_create' %}"> Create new event </a>
+    {% endif %}
+
+    <br />
+
 	{% for event in events %}
         <a href="{% url 'events.views.event_page' pk=event.pk %}">{{ event.name | upper }}</a>
         <br />
