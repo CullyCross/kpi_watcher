@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <p>Register new:</p>
+
+    <a href="{% url 'registration' %}?type=teacher">Teacher</a>
+    <a href="{% url 'registration' %}?type=student">Student</a>
+    <a href="{% url 'registration' %}?type=company">Company</a>
+
+{% endblock %}

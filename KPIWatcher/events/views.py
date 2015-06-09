@@ -1,11 +1,11 @@
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render_to_response
 from django.utils import timezone
 from .forms import EventForm
 
-# Create your views here.
-from events.models import Event
+from events.models import Event, Company
 
 
 def all_events(request):
@@ -22,13 +22,11 @@ def all_events(request):
     try:
         events = paginator.page(page)
     except PageNotAnInteger:
-        # If page is not an integer, deliver first page.
         events = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver last page of results.
         events = paginator.page(paginator.num_pages)
 
-    return render(request, 'events/all_events.html', {'events': events, 'perm_to_create': perm_to_create })
+    return render(request, 'events/all_events.html', {'events': events, 'perm_to_create': perm_to_create})
 
 
 def event_page(request, pk):
@@ -74,6 +72,11 @@ def event_edit(request, pk):
                 return redirect('events.views.event_page', pk=event.pk)
         else:
             form = EventForm(instance=event)
-            return render(request, 'events/edit_event_page.html', {'form': form})
+        return render(request, 'events/edit_event_page.html', {'form': form})
     else:
         raise PermissionDenied()
+
+
+def company_page(request, pk):
+    company = get_object_or_404(Company, pk=pk)
+    return render_to_response('events/company_page.html', {'company': company})
