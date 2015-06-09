@@ -68,21 +68,21 @@ def registration(request):
         reg_type = request.POST.get('post_reg_type', '')
 
         if reg_type == 'teacher':
-            form = TeacherDetailsForm()
+            form = TeacherDetailsForm(request.POST)
             if form.is_valid():
                 teacher = form.save(commit=False)
                 teacher.save()
                 login(request, teacher.user)
                 return redirect('ratings.views.teacher_page', pk=teacher.pk)
         elif reg_type == 'company':
-            form = CompanyDetailsForm()
+            form = CompanyDetailsForm(request.POST)
             if form.is_valid():
                 company = form.save(commit=False)
                 company.save()
                 login(request, company.user)
                 return redirect('events.views.company_page', pk=company.pk)
         else:
-            form = StudentDetailsForm()
+            form = StudentDetailsForm(request.POST)
             if form.is_valid():
                 student = form.save(commit=False)
                 student.save()
