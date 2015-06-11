@@ -125,6 +125,6 @@ def registration(request):
 
 
 def university(request):
-    kpi = University.objects.get(name="NTUU KPI")
+    kpi = University.objects.all().first()
     kpi.count_rating()
     return render(request, 'ratings/university.html', {'university': kpi})

@@ -15,7 +15,6 @@ class Event(models.Model):
     text = models.TextField()
     date_published = models.DateTimeField(default=timezone.now, editable=False)
     subscribers = models.ManyToManyField(User, related_name="events")
-    # create publish method in views.py
 
     def is_subscribed(self, user):
         return self.subscribers.filter(id=user.id).exists()

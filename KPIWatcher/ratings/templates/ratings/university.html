@@ -13,7 +13,7 @@
             {% for department in faculty.departments.all %}
                 <br/>
                 &nbsp;&nbsp;Department name: {{ department.name }}, avg rating: {{ department.avg_rating }}
-
+                <br />
                 &nbsp;&nbsp;&nbsp;Teachers:
                 {% for teacher in department.teachers.all %}
                     <br />
