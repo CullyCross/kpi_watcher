@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{%block content%}
+
+    <br />
+
+	{% for company in companies %}
+        <a href="{% url 'events.views.company_page' pk=company.pk %}">{{ company.name | upper }}</a>
+        <br />
+        {{ company.description }}
+
+        <hr>
+    {% endfor %}
+
+<div class="pagination">
+    <span class="step-links">
+        {% if companies.has_previous %}
+            <a href="?page={{ companies.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ companies.number }} of {{ companies.paginator.num_pages }}.
+        </span>
+
+        {% if companies.has_next %}
+            <a href="?page={{ companies.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{%endblock content%}

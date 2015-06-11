@@ -11,7 +11,11 @@ class University(models.Model):
 		for faculty in self.faculties.all():
 			faculty.count_rating()
 			total += faculty.avg_rating
-		self.avg_rating = total / len(self.faculties.all())
+		try:
+			self.avg_rating = total / len(self.faculties.all())
+			self.avg_rating = round(self.avg_rating, 2)
+		except ZeroDivisionError:
+			self.avg_rating = 0
 		self.save()
 
 	def __str__(self):
@@ -28,7 +32,10 @@ class Faculty(models.Model):
 		for department in self.departments.all():
 			department.count_rating()
 			total += department.avg_rating
-		self.avg_rating = total / len(self.departments.all())
+		try:
+			self.avg_rating = total / len(self.departments.all())
+		except ZeroDivisionError:
+			self.avg_rating = 0
 		self.save()
 
 	def __str__(self):
@@ -48,7 +55,10 @@ class Department(models.Model):
 		for group in self.groups.all():
 			total += group.avg_rating
 
-		self.avg_rating = total / (len(self.groups.all()) + len(self.teachers.all()))
+		try:
+			self.avg_rating = total / (len(self.groups.all()) + len(self.teachers.all()))
+		except ZeroDivisionError:
+			self.avg_rating = 0
 		self.save()
 
 	def __str__(self):

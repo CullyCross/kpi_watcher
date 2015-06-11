@@ -24,11 +24,14 @@
             </form>
         {% endif %}
 
-        Subsribed for:
-        {% for event in teacher.user.events.all %}
-           <p> {{ event.name }}</p>
-        {% endfor %}
+        {% if teacher.user.events.all %}
+            Subsribed for:
+            {% for event in teacher.user.events.all %}
+               <p> {{ event.name }}</p>
+            {% endfor %}
+        {% endif %}
 
-    {% include 'comments.html' %}
+        {% include 'comments.html' %}
 
+    </div>
 {% endblock %}

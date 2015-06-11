@@ -1,8 +1,10 @@
-from django.contrib.auth import login
+from django.contrib.auth import login, authenticate
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
+from events.forms import CompanyDetailsForm
+from events.models import Company
 from .models import *
-from ratings.forms import TeacherDetailsForm, CompanyDetailsForm, StudentDetailsForm
+from ratings.forms import TeacherDetailsForm, StudentDetailsForm, UserDetailsForm
 
 
 def top_ratings(request):
@@ -67,43 +69,62 @@ def registration(request):
     if request.method == "POST":
         reg_type = request.POST.get('post_reg_type', '')
 
-        if reg_type == 'teacher':
-            form = TeacherDetailsForm(request.POST)
-            if form.is_valid():
-                teacher = form.save(commit=False)
-                teacher.save()
-                login(request, teacher.user)
-                return redirect('ratings.views.teacher_page', pk=teacher.pk)
-        elif reg_type == 'company':
-            form = CompanyDetailsForm(request.POST)
-            if form.is_valid():
-                company = form.save(commit=False)
-                company.save()
-                login(request, company.user)
-                return redirect('events.views.company_page', pk=company.pk)
-        else:
-            form = StudentDetailsForm(request.POST)
-            if form.is_valid():
-                student = form.save(commit=False)
-                student.save()
-                login(request, student.user)
-                return redirect('ratings.views.student_page', pk=student.pk)
-        return render(request, 'ratings/registration.html', {'form_reg': form, 'reg_type': reg_type})
+        user_form = UserDetailsForm(request.POST)
+        if user_form.is_valid():
+            user = user_form.save(commit=False)
+            if reg_type == 'teacher':
+                form = TeacherDetailsForm(request.POST)
+                if form.is_valid():
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    user.save()
+                    department = form.cleaned_data['department']
+                    teacher = Teacher.objects.create(user=user, department=department)
+                    teacher.user = user
+                    teacher.save()
+                    login(request, user)
+                    return redirect('ratings.views.teacher_page', pk=teacher.pk)
+            elif reg_type == 'company':
+                form = CompanyDetailsForm(request.POST)
+                if form.is_valid():
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    user.save()
+                    name = form.cleaned_data['name']
+                    description = form.cleaned_data['description']
+                    company = Company.objects.create(user=user, name=name, description=description)
+                    company.user = user
+                    company.save()
+                    login(request, user)
+                    return redirect('events.views.company_page', pk=company.pk)
+            else:
+                form = StudentDetailsForm(request.POST)
+                if form.is_valid():
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    user.save()
+                    group = form.cleaned_data['group']
+                    is_leader = form.cleaned_data['is_leader']
+                    student = Student.objects.create(user=user, group=group, is_leader=is_leader)
+                    student.save()
+                    login(request, user)
+                    return redirect('ratings.views.student_page', pk=student.pk)
+            return render(request, 'ratings/registration.html',
+                          {'form_reg': form, 'form_user': user_form, 'reg_type': reg_type})
 
     elif request.method == "GET":
         reg_type = request.GET.get('type', '')
 
         if not request.user.is_authenticated():
+            user_form = UserDetailsForm()
             if reg_type == 'teacher':
                 form = TeacherDetailsForm()
             elif reg_type == 'company':
                 form = CompanyDetailsForm()
             else:
                 form = StudentDetailsForm()
-            return render(request, 'ratings/registration.html', {'form_reg': form, 'reg_type': reg_type})
+            return render(request, 'ratings/registration.html',
+                          {'form_type': form, 'form_user': user_form, 'reg_type': reg_type})
 
 
-
-
-
-
+def university(request):
+    kpi = University.objects.get(name="NTUU KPI")
+    kpi.count_rating()
+    return render(request, 'ratings/university.html', {'university': kpi})

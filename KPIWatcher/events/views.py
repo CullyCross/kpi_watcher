@@ -80,3 +80,19 @@ def event_edit(request, pk):
 def company_page(request, pk):
     company = get_object_or_404(Company, pk=pk)
     return render_to_response('events/company_page.html', {'company': company})
+
+
+def all_companies(request):
+    companies_all = Company.objects.all()
+    paginator = Paginator(companies_all, 20)
+
+    page = request.GET.get('page')
+
+    try:
+        companies = paginator.page(page)
+    except PageNotAnInteger:
+        companies = paginator.page(1)
+    except EmptyPage:
+        companies = paginator.page(paginator.num_pages)
+
+    return render(request, 'events/all_companies.html', {'companies': companies})

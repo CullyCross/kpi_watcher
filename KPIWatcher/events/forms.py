@@ -1,11 +1,18 @@
 __author__ = 'cullycross'
 
-from django import forms
+from django.forms.models import ModelForm
 
-from .models import Event
+from .models import Event, Company
 
-class EventForm(forms.ModelForm):
+
+class EventForm(ModelForm):
 
     class Meta:
         model = Event
         fields = ('name', 'text', )
+
+class CompanyDetailsForm(ModelForm):
+
+    class Meta:
+        model = Company
+        exclude = ('user', )

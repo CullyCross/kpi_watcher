@@ -9,5 +9,12 @@
         {% if student.is_leader %}
             I'm a leader!
         {% endif %}
+
+        {% if student.user.events.all %}
+            Subsribed for:
+            {% for event in student.user.events.all %}
+               <p> {{ event.name }}</p>
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}

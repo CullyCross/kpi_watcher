@@ -3,14 +3,9 @@
 {% block content %}
     <div>
         <form method="POST" class="post-form">{% csrf_token %}
-            <input type="hidden" name="post_reg_type" value="{{ type }}" />
-            
-            {% for field in form_reg %}
-                <div>
-                    {{ field.errors }} <br />
-                    {{ field.label_tag }} {{ field }} <br />
-                </div>
-            {% endfor %}
+            <input type="hidden" name="post_reg_type" value="{{ reg_type }}" />
+            {{ form_user.as_p }}
+            {{ form_type.as_p }}
             <button type="submit">Save</button>
         </form>
 	</div>

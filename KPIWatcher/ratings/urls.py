@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^students/(?P<pk>[0-9]+)/$', views.student_page, name="student_page"),
     url(r'^choose_your_hero/', views.basic_register, name="basic_register"),
     url(r'^registration/', views.registration, name="registration"),
+    url(r'^university/', views.university, name="university"),
 ]

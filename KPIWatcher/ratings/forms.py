@@ -1,20 +1,27 @@
-from django import forms
 from django.contrib.auth.models import User
-from events.models import Company
 from ratings.models import Teacher, Student
 
 __author__ = 'cullycross'
 
-from django.forms.models import model_to_dict, fields_for_model, ModelForm
+from django.forms.models import ModelForm
 
+class UserDetailsForm(ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password', )
 
 class TeacherDetailsForm(ModelForm):
-    pass
+
+    class Meta:
+        model = Teacher
+        exclude = ('user', )
 
 
 class StudentDetailsForm(ModelForm):
-    pass
+
+    class Meta:
+        model = Student
+        exclude = ('user', )
 
 
-class CompanyDetailsForm(ModelForm):
-    pass
