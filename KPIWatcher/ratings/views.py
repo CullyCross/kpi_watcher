@@ -7,6 +7,9 @@ from .models import *
 from ratings.forms import TeacherDetailsForm, StudentDetailsForm, UserDetailsForm
 
 
+#todo: unsubscribe event, group page (and vote also)
+#todo: links in university page, etc
+
 def top_ratings(request):
 	teachers = Teacher.objects.all().order_by('-avg_rating')[:100]
 	return render(request, 'ratings/top_ratings.html', {'teachers': teachers})
@@ -41,6 +44,7 @@ def vote(request, pk):
 def student_page(request, pk):
     student = get_object_or_404(Student, pk=pk)
     return render(request, 'ratings/student_page.html', {'student': student})
+
 
 def students_all(request):
     students_all_list = Student.objects.all().order_by('user__username')
