@@ -1,6 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <!--todo:make this accordion
+        <script>
+        $(function() {
+            $( ".faculty" ).accordion({
+                collapsible: true,
+                header: ".department"
+            });
+        });
+
+        $(function() {
+            $( ".department" ).accordion({
+                collapsible: true,
+                header: ".teachers-groups"
+            });
+        });
+    </script>-->
+
     <div>
         University:
         {{ university.name }},
@@ -8,27 +25,35 @@
         {{ university.avg_rating }}
         {% for faculty in university.faculties.all %}
             <br/>
-            &nbsp;Faculty name: {{ faculty.name }}, avg rating: {{ faculty.avg_rating }}
+            <div class="faculty">
+                &nbsp;Faculty name: {{ faculty.name }}, avg rating: {{ faculty.avg_rating }}
 
-            {% for department in faculty.departments.all %}
-                <br/>
-                &nbsp;&nbsp;Department name: {{ department.name }}, avg rating: {{ department.avg_rating }}
-                <br />
-                &nbsp;&nbsp;&nbsp;Teachers:
-                {% for teacher in department.teachers.all %}
-                    <br />
-                    &nbsp;&nbsp;&nbsp;Name: {{ teacher }}.
-                    &nbsp;&nbsp;&nbsp;Avg rating: {{ teacher.avg_rating }}
+                {% for department in faculty.departments.all %}
+                    <br/>
+                    <div class="department">
+                        &nbsp;&nbsp;Department name: {{ department.name }}, avg rating: {{ department.avg_rating }}
+                        <br />
+                        &nbsp;&nbsp;&nbsp;Teachers:
+                        {% for teacher in department.teachers.all %}
+                            <br />
+                            <div class="teacher teachers-groups">
+                                &nbsp;&nbsp;&nbsp;Name: <a href="{% url 'ratings.views.teacher_page' pk=teacher.pk %}">{{ teacher.user.username }}</a>
+                                &nbsp;&nbsp;&nbsp;Avg rating: {{ teacher.avg_rating }}
+                            </div>
+                        {% endfor %}
+                        <hr />
+                        &nbsp;&nbsp;&nbsp;Groups:
+                        {% for group in department.groups.all %}
+                            <br />
+                            <div class="group teachers-groups">
+                                &nbsp;&nbsp;&nbsp;Name: <a href="{% url 'ratings.views.group_page' pk=group.pk %}">{{ group.name }}</a>
+                                &nbsp;&nbsp;&nbsp;Avg rating: {{ group.avg_rating }}
+                            </div>
+                        {% endfor %}
+                        <hr />
+                    </div>
                 {% endfor %}
-                <hr />
-                &nbsp;&nbsp;&nbsp;Groups:
-                {% for group in department.groups.all %}
-                    <br />
-                    &nbsp;&nbsp;&nbsp;Name: {{ group }}.
-                    &nbsp;&nbsp;&nbsp;Avg rating: {{ group.avg_rating }}
-                {% endfor %}
-                <hr />
-            {% endfor %}
+            </div>
         {% endfor %}
     </div>
 {% endblock %}

@@ -6,10 +6,6 @@ from events.models import Company
 from .models import *
 from ratings.forms import TeacherDetailsForm, StudentDetailsForm, UserDetailsForm
 
-
-#todo: group page (and vote also)
-#todo: links in university page, etc
-
 def top_ratings(request):
 	teachers = Teacher.objects.all().order_by('-avg_rating')[:100]
 	return render(request, 'ratings/top_ratings.html', {'teachers': teachers})
