@@ -20,6 +20,8 @@
 
         {% if not user.is_anonymous and not subscribed %}
             <a href="{% url 'event_subscribe' pk=event.pk %}">Subscribe</a>
+        {% elif not user.is_anonymous and subscribed %}
+            <a href="{% url 'event_unsubscribe' pk=event.pk %}">Unsubscribe</a>
         {% endif %}
         <br />
         Subscribers:

@@ -42,6 +42,12 @@ def subscribe(request, pk):
     return render(request, 'events/event_page.html', {'event': event, 'subscribed': True, 'message': message})
 
 
+def unsubscribe(request, pk):
+    event = get_object_or_404(Event, pk=pk)
+    event.unsubscribe(request.user)
+    return render(request, 'events/event_page.html', {'event': event, 'subscribed': False})
+
+
 def create_new(request):
     if hasattr(request.user, 'teacher') or hasattr(request.user, 'company'):
         if request.method == "POST":

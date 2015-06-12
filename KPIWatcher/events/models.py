@@ -27,5 +27,13 @@ class Event(models.Model):
         else:
             return False
 
+    def unsubscribe(self, user):
+        if self.is_subscribed(user):
+            self.subscribers.remove(user)
+            self.save()
+            return True
+        else:
+            return False
+
     def __str__(self):
         return self.name

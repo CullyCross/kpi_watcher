@@ -126,6 +126,7 @@ def registration(request):
                 form = StudentDetailsForm()
             return render(request, 'ratings/registration.html',
                           {'form_type': form, 'form_user': user_form, 'reg_type': reg_type})
+    return redirect('/')
 
 
 def university(request):
