@@ -1,4 +1,5 @@
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404, redirect
 from events.forms import CompanyDetailsForm
@@ -79,7 +80,7 @@ def registration(request):
 
         user_form = UserDetailsForm(request.POST)
         if user_form.is_valid():
-            user = user_form.save(commit=False)
+            user = user_form.save(commit=True)
             if reg_type == 'teacher':
                 form = TeacherDetailsForm(request.POST)
                 if form.is_valid():

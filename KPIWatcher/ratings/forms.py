@@ -1,15 +1,14 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from ratings.models import Teacher, Student
 
 __author__ = 'cullycross'
 
 from django.forms.models import ModelForm
 
-class UserDetailsForm(ModelForm):
+class UserDetailsForm(UserCreationForm):
 
-    class Meta:
-        model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password', )
+    class Meta(UserCreationForm.Meta):
+        fields = ('username', 'first_name', 'last_name', 'email', )
 
 class TeacherDetailsForm(ModelForm):
 
