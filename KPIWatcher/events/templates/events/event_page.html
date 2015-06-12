@@ -15,7 +15,7 @@
 		<p>{{ event.text }}</p>
 
         {% if event.creator %}
-            <p>{{ event.creator }}</p>
+            <p>Creator: {{ event.creator }}</p>
         {% endif %}
 
         {% if not user.is_anonymous and not subscribed %}

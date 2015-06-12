@@ -2,12 +2,15 @@
 
 {%block content%}
 
+
     {% if perm_to_create %}
         <a href="{% url 'event_create' %}"> Create new event </a>
     {% endif %}
 
     <br />
-
+<div class="content container">
+        <div class="row">
+            <div class="col-md-8">
 	{% for event in events %}
         <a href="{% url 'events.views.event_page' pk=event.pk %}">{{ event.name | upper }}</a>
         <br />
@@ -30,5 +33,5 @@
             <a href="?page={{ events.next_page_number }}">next</a>
         {% endif %}
     </span>
-</div>
+</div></div></div></div>
 {%endblock content%}

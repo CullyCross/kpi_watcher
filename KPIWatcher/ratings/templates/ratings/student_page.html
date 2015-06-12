@@ -2,13 +2,13 @@
 
 {% block content %}
     <div>
-        Student's name:
-        {{student.user.username}}
-        Student's group:
-        {{student.group}}
-        {% if student.is_leader %}
-            I'm a leader!
-        {% endif %}
+        <div class="row">
+	    	<a href="{% url 'ratings.views.student_page' pk=student.pk %}">{{ student.user.username }}</a>
+            | {{ student.group.department.faculty }} / {{ student.group.department }} / {{student.group}}
+            {% if student.is_leader %}
+            (leader)
+            {% endif %}
+	    </div>
 
         {% if student.user.events.all %}
             Subsribed for:

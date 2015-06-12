@@ -19,19 +19,18 @@
     </script>-->
 
     <div>
-        University:
-        {{ university.name }},
-        avg rating:
-        {{ university.avg_rating }}
+        <h2>{{ university.name }}</h2> (avg rating:
+
+        {{ university.avg_rating }})
         {% for faculty in university.faculties.all %}
             <br/>
             <div class="faculty">
-                &nbsp;Faculty name: {{ faculty.name }}, avg rating: {{ faculty.avg_rating }}
+                &nbsp;<h3> {{ faculty.name }}</h3> (avg rating: {{ faculty.avg_rating }})
 
                 {% for department in faculty.departments.all %}
                     <br/>
                     <div class="department">
-                        &nbsp;&nbsp;Department name: {{ department.name }}, avg rating: {{ department.avg_rating }}
+                        &nbsp;&nbsp;<h4> {{ department.name }} </h4> (avg rating: {{ department.avg_rating }})
                         <br />
                         &nbsp;&nbsp;&nbsp;Teachers:
                         {% for teacher in department.teachers.all %}

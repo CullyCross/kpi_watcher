@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 {%block content%}
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
 	{% for group in groups %}
 		<div>
 	    	Name: <a href="{% url 'ratings.views.group_page' pk=group.pk %}">{{ group.name }}</a>
@@ -26,4 +29,5 @@
         {% endif %}
     </span>
 </div>
+            </div></div></div>
 {%endblock content%}

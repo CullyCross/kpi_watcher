@@ -1,11 +1,15 @@
 {% extends 'base.html' %}
 
 {%block content%}
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
 	{%for teacher in teachers%}
-		<div>
+        <div class="post">
 	    	<a href="{% url 'ratings.views.teacher_page' pk=teacher.pk %}">{{ teacher.user.username }}</a> |
             Avg rating: {{ teacher.avg_rating }} | Votes: {{ teacher.count_of_votes }}
         <br />
 	    </div>
 	{%endfor%}
+            </div></div></div>
 {%endblock content%}

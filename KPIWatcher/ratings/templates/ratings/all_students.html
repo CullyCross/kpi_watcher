@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
 
 {%block content%}
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
 	{% for student in students %}
-		<div>
-	    	Name: <a href="{% url 'ratings.views.student_page' pk=student.pk %}">{{ student.user.username }}</a>
-            | Student's group: {{student.group}}
+		<div class="row">
+	    	<a href="{% url 'ratings.views.student_page' pk=student.pk %}">{{ student.user.username }}</a>
+            | {{ student.group.department.faculty }} / {{ student.group.department }} / {{student.group}}
             {% if student.is_leader %}
             (leader)
             {% endif %}
@@ -26,4 +29,5 @@
         {% endif %}
     </span>
 </div>
+    </div></div></div>
 {%endblock content%}

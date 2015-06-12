@@ -7,7 +7,15 @@
 		</title>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html">
+        <meta name="author" content="Cully Cross">
+        <link rel="icon" type="image/png" href="http://cullycross.me/star.png">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="{% static "styles.css" %}">
+        <link href="http://fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
         <style>
             .hcb-wrapper-half.input-field,
             .home-desc,
@@ -29,12 +37,18 @@
 
 	<body>
 
-    {% include 'login.html' %}
+    <div class="page-header">
     {% include 'navigation.html' %}
+        <h1><a href="/">KPI Watcher</a></h1>
+    </div>
+
+
+    <div class="login"> {% include 'login.html' %} </div>
 
     <br />
 
-    {%block content%}
+    <div class="content">{%block content%}</div>
+
 	{%endblock%}
 
 
