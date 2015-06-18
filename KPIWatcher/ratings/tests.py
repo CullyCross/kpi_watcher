@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.test import TestCase
 
-# Create your tests here.
 from ratings.models import Teacher, Department, Student, Group, University, Faculty
 
 
