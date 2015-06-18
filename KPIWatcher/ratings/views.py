@@ -146,6 +146,10 @@ def all_groups(request):
 
     page = request.GET.get('page')
 
+    perm_to_see_votes = False
+    if hasattr(request.user, 'teacher') or hasattr(request.user, 'company'):
+        perm_to_see_votes = True
+
     try:
         groups = paginator.page(page)
     except PageNotAnInteger:
@@ -155,7 +159,7 @@ def all_groups(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         groups = paginator.page(paginator.num_pages)
 
-    return render(request, 'ratings/all_groups.html', {'groups': groups})
+    return render(request, 'ratings/all_groups.html', {'groups': groups, 'perm': perm_to_see_votes})
 
 
 def group_page(request, pk):
@@ -167,9 +171,13 @@ def group_page(request, pk):
         perm_to_vote = False
         perm_to_comment = False
 
+    perm_to_see_votes = False
+    if hasattr(request.user, 'teacher') or hasattr(request.user, 'company'):
+        perm_to_see_votes = True
+
     return render(request, 'ratings/group_page.html',
                   {'group': group, 'range': range(1, 11),
-                   'perm_to_vote': perm_to_vote, 'perm_to_comment': perm_to_comment})
+                   'perm_to_vote': perm_to_vote, 'perm_to_comment': perm_to_comment, 'perm_to_see_votes': perm_to_see_votes})
 
 def vote_group(request, pk):
     group = get_object_or_404(Group, pk=pk)

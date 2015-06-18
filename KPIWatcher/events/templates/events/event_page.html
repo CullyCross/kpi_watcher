@@ -9,6 +9,7 @@
         {% if request.user == event.creator or request_user == event.creator %}
             <a href="{% url "event_edit" pk=event.pk %}">Edit</a>
         {% endif %}
+        <br />
 
 		<a href="{% url 'event_page' pk=event.pk %}">{{ event.name }}</a>
 		<br />

@@ -3,8 +3,11 @@
 {% block content %}
     <div>
 		<a href="{% url 'ratings.views.group_page' pk=group.pk %}">{{ group.name }}</a>
-		<p>Avg rating: {{ group.avg_rating }}</p>
-		<p>Count of votes: {{ group.count_of_votes }}</p>
+
+        {% if perm_to_see_votes %}
+            <p>Avg rating: {{ group.avg_rating }}</p>
+		    <p>Count of votes: {{ group.count_of_votes }}</p>
+        {% endif %}
 
         {% if message %}
             {{ message }}

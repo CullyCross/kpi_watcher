@@ -8,8 +8,10 @@
 		<div>
 	    	Name: <a href="{% url 'ratings.views.group_page' pk=group.pk %}">{{ group.name }}</a>
             <p>Department: {{ group.department }}</p>
-            <p>Avg rating: {{ group.avg_rating }}</p>
-            <p>Count of votes: {{ group.count_of_votes }}</p>
+            {% if perm %}
+                <p>Avg rating: {{ group.avg_rating }}</p>
+                <p>Count of votes: {{ group.count_of_votes }}</p>
+            {% endif %}
 	    </div>
         <hr />
 	{%endfor%}

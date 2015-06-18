@@ -74,8 +74,8 @@ class Teacher(models.Model):
 	voted_students = models.ManyToManyField('Student', related_name="rated_teachers", editable=False)
 
 	def vote(self, vote, student):
-		if not vote == -1:
-			if student is not None:
+		if not vote < 0 and not vote > 10:
+			if isinstance(student, Student):
 				if not self.voted_students.filter(user__id=student.user.id).exists():
 					self.avg_rating = ((self.avg_rating * self.count_of_votes) + vote) / (self.count_of_votes + 1)
 					self.count_of_votes += 1
@@ -98,8 +98,8 @@ class Group(models.Model):
 	voted_teachers = models.ManyToManyField('Teacher', related_name="rated_groups", editable=False)
 
 	def vote(self, vote, teacher):
-		if not vote == -1:
-			if teacher is not None:
+		if not vote < 0 and not vote > 10:
+			if isinstance(teacher, Teacher):
 				if not self.voted_teachers.filter(user__id=teacher.user.id).exists():
 					self.avg_rating = ((self.avg_rating * self.count_of_votes) + vote) / (self.count_of_votes + 1)
 					self.count_of_votes += 1
