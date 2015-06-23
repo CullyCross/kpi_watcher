@@ -47,7 +47,7 @@ class RatingsTestCase(TestCase):
         teacher = Teacher.objects.get(user=user)
         user = User.objects.get(username="UnitStudent")
         student = Student.objects.get(user=user)
-        teacher.vote(10, student)
+        self.assertEqual(teacher.vote(10, student), True)
         self.assertEqual(teacher.vote(4, student), False)
 
     def test_vote_for_group(self):

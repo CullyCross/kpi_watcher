@@ -27,13 +27,35 @@ class EventTestCase(TestCase):
         e = Event.objects.create(creator=t_user, name='UnitEvent', text="UnitTestText")
 
 
-    def test_subscribe(self):
+    def test_subscribe_failed(self):
         s_user = User.objects.get(username="UnitStudent")
         e = Event.objects.get(name="UnitEvent")
         e.subscribe(s_user)
         self.assertEqual(e.subscribe(s_user), False)
 
-    def test_unsubscribe(self):
+    def test_subscribe(self):
+        s_user = User.objects.get(username="UnitStudent")
+        e = Event.objects.get(name="UnitEvent")
+        self.assertEqual(e.subscribe(s_user), True)
+
+    def test_unsubscribe_failed(self):
         s_user = User.objects.get(username="UnitStudent")
         e = Event.objects.get(name="UnitEvent")
         self.assertEqual(e.unsubscribe(s_user), False)
+
+    def test_unsubscribe(self):
+        s_user = User.objects.get(username="UnitStudent")
+        e = Event.objects.get(name="UnitEvent")
+        e.subscribe(s_user)
+        self.assertEqual(e.unsubscribe(s_user), True)
+
+    def test_is_subscribed(self):
+        s_user = User.objects.get(username="UnitStudent")
+        e = Event.objects.get(name="UnitEvent")
+        e.subscribe(s_user)
+        self.assertEqual(e.is_subscribed(s_user), True)
+
+    def test_is_not_subscribed(self):
+        s_user = User.objects.get(username="UnitStudent")
+        e = Event.objects.get(name="UnitEvent")
+        self.assertEqual(e.is_subscribed(s_user), False)

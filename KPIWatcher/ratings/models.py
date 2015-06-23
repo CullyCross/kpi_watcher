@@ -77,7 +77,8 @@ class Teacher(models.Model):
 		if not vote < 0 and not vote > 10:
 			if isinstance(student, Student):
 				if not self.voted_students.filter(user__id=student.user.id).exists():
-					self.avg_rating = ((self.avg_rating * self.count_of_votes) + vote) / (self.count_of_votes + 1)
+					self.avg_rating = ((self.avg_rating * self.count_of_votes) + vote)\
+									  / (self.count_of_votes + 1)
 					self.count_of_votes += 1
 					self.voted_students.add(student)
 					self.save()
